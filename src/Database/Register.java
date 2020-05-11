@@ -2,22 +2,28 @@ package Database;
 
 public class Register {
     private String firstname, lastname;
+    private String email;
+    private String password;
     private int age;
     private int career ,income;
     private String bank_id ;
     private int bank_name;
+    private String session_id;
 
     //constructor
 
 
-    public Register(String firstname, String lastname, int age, int career, int income, String bank_id, int bank_name) {
+    public Register(String firstname, String lastname, String email, String password, int age, int career, int income, String bank_id, int bank_name, String session_id) {
         this.firstname = firstname;
         this.lastname = lastname;
+        this.email = email;
+        this.password = password;
         this.age = age;
         this.career = career;
         this.income = income;
         this.bank_id = bank_id;
         this.bank_name = bank_name;
+        this.session_id = session_id;
     }
 
     public Register() {
@@ -39,6 +45,14 @@ public class Register {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+
+    public void setPassword(String password) { this.password = password; }
 
     public int getAge() {
         return age;
@@ -80,16 +94,26 @@ public class Register {
         this.bank_name = bank_name;
     }
 
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
+
     @Override
     public String toString() {
         return "Register{" +
                 "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password=" + password +
                 ", age=" + age +
                 ", career=" + career +
                 ", income=" + income +
                 ", bank_id='" + bank_id + '\'' +
-                ", bank_name='" + bank_name + '\'' +
+                ", bank_name=" + bank_name +
                 '}';
     }
 }

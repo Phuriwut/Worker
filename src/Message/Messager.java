@@ -1,16 +1,12 @@
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.Session;
-import javax.jms.TextMessage;
+package Message;
+
+import javax.jms.*;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.log4j.BasicConfigurator;
 
-public class MessageReceiver {
+public class Messager {
 
     // URL of the JMS server
     private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
@@ -18,15 +14,17 @@ public class MessageReceiver {
 
     // Name of the queue we will receive messages from
     private static String subject = "REGISTER";
+    private static String subjectWorker = "WORK2SOCKET";
 
     ConnectionFactory connectionFactory;
     Connection connection;
     Session session;
-    Destination destination;
+    Destination destination,destinationWorker;
     MessageConsumer consumer;
     Message message;
+    MessageProducer producer;
 
-    MessageReceiver() throws JMSException {
+    public Messager() throws JMSException {
         // Getting JMS connection from the server
         this.connectionFactory = new ActiveMQConnectionFactory(url);
         this.connection = connectionFactory.createConnection();
@@ -38,15 +36,24 @@ public class MessageReceiver {
 
         // Getting the queue 'JCG_QUEUE'
         this.destination = this.session.createQueue(subject);
+        this.destinationWorker = this.session.createQueue(subjectWorker);
 
         // MessageConsumer is used for receiving (consuming) messages
         this.consumer = this.session.createConsumer(destination);
 
-        // Here we receive the message.
+        //MessageProducer is used for sending messages to the queue.
+        this.producer = session.createProducer(destinationWorker);
+
+        //activeMQ
+        BasicConfigurator.configure();
 
     }
 
-    String recieve() throws JMSException{
+    public void send(String message) throws JMSException {
+        this.producer.send(this.session.createTextMessage(message));
+    }
+
+    public String recieve() throws JMSException{
         this.message = this.consumer.receive();
 
         // We will be using TestMessage in our example. MessageProducer sent us a TextMessage

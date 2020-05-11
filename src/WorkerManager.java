@@ -1,3 +1,4 @@
+import Message.Messager;
 import Worker.RegisterWorker;
 
 import javax.jms.JMSException;
@@ -5,11 +6,11 @@ import java.util.ArrayList;
 
 public class WorkerManager {
     static ArrayList<Thread> workers = new ArrayList<Thread>();
-    MessageReceiver receiver;
+    Messager messager;
     private static int WORKER_NUMBER = 5;
     WorkerManager (){
         try {
-            receiver = new MessageReceiver();
+            messager = new Messager();
         } catch (JMSException e) {
             e.printStackTrace();
         }
@@ -20,8 +21,9 @@ public class WorkerManager {
             try {
                 this.clearThread();
                 if(this.workers.size() >= 5) continue;
-                String newMessage = this.receiver.recieve();
-                Thread th = new Thread(new RegisterWorker(newMessage));
+                String newMessage = this.messager.recieve();
+                System.out.println(messager);
+                Thread th = new Thread(new RegisterWorker(newMessage, this.messager));
                 workers.add(th);
                 System.out.println(this.workers.size());
                 th.start();
@@ -54,7 +56,7 @@ public class WorkerManager {
         }
         while (true){
             try {
-                MessageReceiver receiver = new MessageReceiver();
+                Messager receiver = new Messager();
             } catch (JMSException e) {
                 e.printStackTrace();
             }
