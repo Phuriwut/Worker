@@ -1,5 +1,9 @@
 import Message.Messager;
+import Worker.LoginWorker;
 import Worker.RegisterWorker;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.jms.JMSException;
 import java.util.ArrayList;
@@ -17,16 +21,26 @@ public class WorkerManager {
     }
 
     void updateQueue(){
+        JsonParser jsonParser = new JsonParser();
         while(true){
             try {
                 this.clearThread();
                 if(this.workers.size() >= 5) continue;
                 String newMessage = this.messager.recieve();
-                System.out.println(messager);
-                Thread th = new Thread(new RegisterWorker(newMessage, this.messager));
-                workers.add(th);
-                System.out.println(this.workers.size());
-                th.start();
+                JsonObject objectFromString = jsonParser.parse(newMessage).getAsJsonObject();
+                String type = objectFromString.get("type").getAsString();
+                String data = objectFromString.get("data").getAsString();
+                if(type.equals("REGISTER")){
+                    Thread th = new Thread(new RegisterWorker(data, this.messager));
+                    workers.add(th);
+                    System.out.println(this.workers.size());
+                    th.start();
+                }else if(type.equals("LOGIN")){
+                    Thread th = new Thread(new LoginWorker(data, this.messager));
+                    workers.add(th);
+                    System.out.println(this.workers.size());
+                    th.start();
+                }
             } catch (JMSException e) {
                 e.printStackTrace();
             }

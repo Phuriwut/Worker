@@ -13,7 +13,7 @@ public class Messager {
     // default broker URL is : tcp://localhost:61616"
 
     // Name of the queue we will receive messages from
-    private static String subject = "REGISTER";
+    private static String subject = "SOCKET2WORK";
     private static String subjectWorker = "WORK2SOCKET";
 
     ConnectionFactory connectionFactory;
