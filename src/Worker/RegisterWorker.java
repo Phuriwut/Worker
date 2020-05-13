@@ -40,11 +40,18 @@ public class RegisterWorker extends Worker<Register> implements Runnable {
             ppsm.setInt(9,this.data.getBank_name());
             ppsm.setBoolean(10,true);
             ppsm.execute();
-            System.out.println("OK na");
 
-            JSONObject dataJSON = new JSONObject(data);
-            dataJSON.toString();
-            this.messager.send("{\"type\":\"NOTIFICATE\",\"session_id\":\"" + data.getSession_id() + "\",\"data\":\"{\\\"status\\\":0,\\\"title\\\":\\\"success\\\",\\\"detail\\\":\\\"☺\\\"}\"}");
+            JSONObject notiData = new JSONObject();
+            notiData.put("status",0);
+            notiData.put("title","♦ Success ♦");
+            notiData.put("detail","☺");
+
+            JSONObject dataJSON = new JSONObject();
+            dataJSON.put("type","NOTIFICATE");
+            dataJSON.put("session_id",data.getSession_id());
+            dataJSON.put("data",notiData.toString());
+
+            this.messager.send(dataJSON.toString());
         } catch (SQLException | JMSException throwables) {
             throwables.printStackTrace();
             ;

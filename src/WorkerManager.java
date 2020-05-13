@@ -1,9 +1,9 @@
 import Message.Messager;
 import Worker.LoginWorker;
 import Worker.RegisterWorker;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import constance.events.ServerEvents;
 
 import javax.jms.JMSException;
 import java.util.ArrayList;
@@ -30,12 +30,12 @@ public class WorkerManager {
                 JsonObject objectFromString = jsonParser.parse(newMessage).getAsJsonObject();
                 String type = objectFromString.get("type").getAsString();
                 String data = objectFromString.get("data").getAsString();
-                if(type.equals("REGISTER")){
+                if(type.equals(ServerEvents.REGISTER.getString())){
                     Thread th = new Thread(new RegisterWorker(data, this.messager));
                     workers.add(th);
                     System.out.println(this.workers.size());
                     th.start();
-                }else if(type.equals("LOGIN")){
+                }else if(type.equals(ServerEvents.LOGIN.getString())){
                     Thread th = new Thread(new LoginWorker(data, this.messager));
                     workers.add(th);
                     System.out.println(this.workers.size());
@@ -44,12 +44,6 @@ public class WorkerManager {
             } catch (JMSException e) {
                 e.printStackTrace();
             }
-
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 

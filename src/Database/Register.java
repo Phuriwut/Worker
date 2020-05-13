@@ -1,5 +1,7 @@
 package Database;
 
+import org.json.JSONObject;
+
 public class Register {
     private String firstname, lastname;
     private String email;
@@ -104,16 +106,16 @@ public class Register {
 
     @Override
     public String toString() {
-        return "Register{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", password=" + password +
-                ", age=" + age +
-                ", career=" + career +
-                ", income=" + income +
-                ", bank_id='" + bank_id + '\'' +
-                ", bank_name=" + bank_name +
-                '}';
+        JSONObject obj = new JSONObject();
+        obj.put("firstname", firstname);
+        obj.put("lastname", lastname);
+        obj.put("email", email);
+        obj.put("age",age);
+        obj.put("career",career);
+        obj.put("income",income);
+        obj.put("bank_id",bank_id);
+        obj.put("bank_name",bank_name);
+
+        return obj.toString();
     }
 }

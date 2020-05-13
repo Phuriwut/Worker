@@ -4,6 +4,7 @@ import Database.Login;
 import Database.Register;
 import Message.Messager;
 import com.google.gson.JsonSyntaxException;
+import constance.events.ClientEvents;
 import org.json.JSONObject;
 
 import javax.jms.JMSException;
@@ -52,7 +53,7 @@ public class LoginWorker extends Worker<Login> implements Runnable {
         String userEventDataJSON = userEventData.toString();
 
         JSONObject workerToSocketData = new JSONObject();
-        workerToSocketData.put("type","NOTIFICATE");
+        workerToSocketData.put("type",ClientEvents.NOTIFICATE.getString());
         workerToSocketData.put("session_id",this.data.getSession_id());
         workerToSocketData.put("data",userEventDataJSON);
 
@@ -76,7 +77,7 @@ public class LoginWorker extends Worker<Login> implements Runnable {
         String userEventDataJSON = userEventData.toString();
 
         JSONObject workerToSocketData = new JSONObject();
-        workerToSocketData.put("type","LOGIN_RECEIVE");
+        workerToSocketData.put("type", ClientEvents.LOGIN_RECEIVE.getString());
         workerToSocketData.put("session_id",this.data.getSession_id());
         workerToSocketData.put("data",userEventDataJSON);
 
