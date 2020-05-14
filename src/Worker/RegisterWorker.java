@@ -1,9 +1,6 @@
 package Worker;
 
-import Database.DB;
 import Database.Register;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import Message.Messager;
 import constance.events.ClientEvents;
@@ -55,6 +52,10 @@ public class RegisterWorker extends Worker<Register> implements Runnable {
             throwables.printStackTrace();
             ;
         }
+
+    }
+    
+    public void checkEmail(){
 
     }
 }
