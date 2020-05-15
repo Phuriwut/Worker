@@ -71,7 +71,7 @@ public class LoginWorker extends Worker<Login> implements Runnable {
         userEventData.put("bank_id",rs.getString("bankid"));
         userEventData.put("bank_name",rs.getInt("bankname"));
         userEventData.put("is_accept", rs.getBoolean("is_accept"));
-        userEventData.put("status","Success");
+        userEventData.put("status","SUCCESS");
 
         String userEventDataJSON = userEventData.toString();
 
