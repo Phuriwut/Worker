@@ -45,7 +45,7 @@ public class LoginWorker extends Worker<Login> implements Runnable {
     public void notFoundHandler() throws JMSException {
         JSONObject userEventData = new JSONObject();
         userEventData.put("title","Fail");
-        userEventData.put("detail","email or password is wrong");
+        userEventData.put("detail","Check email or password again.");
         userEventData.put("status",2);
 
         String userEventDataJSON = userEventData.toString();
