@@ -58,6 +58,17 @@ public class LoginWorker extends Worker<Login> implements Runnable {
         System.out.println(workerToSocketData.toString());
 
         this.messager.send(workerToSocketData.toString());
+
+        JSONObject userEventDataFail = new JSONObject();
+        userEventDataFail.put("status","FAIL");
+
+        JSONObject workerToSocketDataFail = new JSONObject();
+        workerToSocketDataFail.put("type", ClientEvents.LOGIN_RECEIVE.getString());
+        workerToSocketDataFail.put("session_id",this.data.getSession_id());
+        workerToSocketDataFail.put("data",userEventDataFail.toString());
+
+//        System.out.println(workerToSocketDataFail.toString());
+        this.messager.send(workerToSocketDataFail.toString());
     }
 
     public void foundHandler(ResultSet rs) throws SQLException, JMSException {
@@ -80,7 +91,7 @@ public class LoginWorker extends Worker<Login> implements Runnable {
         workerToSocketData.put("session_id",this.data.getSession_id());
         workerToSocketData.put("data",userEventDataJSON);
 
-        System.out.println(workerToSocketData.toString());
+//        System.out.println(workerToSocketData.toString());
         this.messager.send(workerToSocketData.toString());
     }
 
